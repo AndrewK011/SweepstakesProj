@@ -8,13 +8,15 @@ namespace Sweepstakes
 {
     class MarketingFirm
     {
-        public interface ISweepstakesManager
+        public MarketingFirm(ISweepstakesManager manager)
         {
-            void InsertSweepstakes(Contestant contestant);
 
-            Sweepstakes GetSweepstakes();
         }
-            
+
+        public void CreateSweepStakes()
+        {
+
+        }
 
     }
 }

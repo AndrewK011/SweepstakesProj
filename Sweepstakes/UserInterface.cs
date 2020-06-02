@@ -10,9 +10,15 @@ namespace Sweepstakes
     {
         public static string GetUserInputFor(string prompt)
         {
-            string userInput = "";
+            Console.WriteLine($"Please enter {prompt}:");
+            string userInput = Console.ReadLine();
 
             return userInput;
+        }
+
+        public static void Print(string printedString)
+        {
+            Console.WriteLine(printedString);
         }
     }
 }

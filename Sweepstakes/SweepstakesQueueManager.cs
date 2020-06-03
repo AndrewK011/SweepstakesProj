@@ -12,12 +12,13 @@ namespace Sweepstakes
 
         public void InsertSweepstakes(Sweepstakes sweepstakes)
         {
+            queue = new Queue<Sweepstakes>();
             queue.Enqueue(sweepstakes);
         }
 
         public Sweepstakes GetSweepstakes()
         {   
-            return queue.Peek();
+            return queue.Dequeue();
         }
     }
 }

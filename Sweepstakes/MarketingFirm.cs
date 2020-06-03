@@ -15,10 +15,10 @@ namespace Sweepstakes
             _manager = manager;
         }
 
-        public void CreateSweepStakes()
+        public void CreateSweepStakes(string sweepstakesName)
         {
-
+            Sweepstakes newSweep = new Sweepstakes(sweepstakesName);
+            _manager.InsertSweepstakes(newSweep);
         }
-
     }
 }

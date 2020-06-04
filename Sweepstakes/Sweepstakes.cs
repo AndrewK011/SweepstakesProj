@@ -5,6 +5,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 namespace Sweepstakes
 {
@@ -12,7 +15,6 @@ namespace Sweepstakes
     {
         
         private Dictionary<int, Contestant> contestants;
-        
         
         private string name;
         public string Name { get { return name; } set { name = value; } }
@@ -25,7 +27,7 @@ namespace Sweepstakes
             {
                 RegisterContestant(CreateContestant(i));
             }
-            PickWinner();
+            PrintContestantInfo(PickWinner());
             NotifyContestants();
         }
 
@@ -47,8 +49,6 @@ namespace Sweepstakes
             Contestant winner = contestants.ElementAt(rnd.Next(0, contestants.Count)).Value;
             winner.isWinner = true;
             PrintContestantInfo(winner);
-            NotifyContestants();
-
             return winner;
         }
 
@@ -59,18 +59,19 @@ namespace Sweepstakes
             {
                 if(contestant.isWinner)
                 {
-                    UserInterface.Print("Congratulations! You won!");
+                    UserInterface.Print($"Congratulations {contestant.FirstName}! You won!");
+                    //EmailWinner(contestant);
                 }
                 else
                 {
-                    UserInterface.Print("Sorry, you are not the winner.");
+                    UserInterface.Print($"Sorry {contestant.FirstName}, you are not the winner.");
                 }
             }
         }
 
         public void PrintContestantInfo(Contestant contestant)
         {
-            UserInterface.DisplayWinner(contestant);
+            UserInterface.DisplayContestantInfo(contestant);
         }
 
         public Contestant CreateContestant(int regNumber)
@@ -78,6 +79,32 @@ namespace Sweepstakes
             Contestant contestant = new Contestant();
             contestant.SetRegistrationNumber(regNumber);
             return contestant;
+        }
+
+        public void EmailWinner(Contestant contestant)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Sweepstakes Company", "Sweepstakes@company.com"));
+            message.To.Add(new MailboxAddress(contestant.FirstName + " " + contestant.LastName, contestant.EmailAddress));
+            message.Subject = (name);
+
+            message.Body = new TextPart("plain")
+            {
+                Text = $"Congratulations! You have won our {name} sweepstakes!\nPlease reply to this email for more information!"
+
+                    
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.domain.com", 25, false);
+
+                // Note: only needed if the SMTP server requires authentication
+                //client.Authenticate("username", "password");
+
+                client.Send(message);
+                client.Disconnect(true);
+            }
         }
     }
 }

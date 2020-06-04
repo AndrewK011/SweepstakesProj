@@ -21,7 +21,7 @@ namespace Sweepstakes
             Console.WriteLine(printedString);
         }
 
-        public static void DisplayWinner(Contestant contestant)
+        public static void DisplayContestantInfo(Contestant contestant)
         {
             Console.WriteLine($"{contestant.FirstName}\n{contestant.LastName}\n{contestant.EmailAddress}\n{contestant.RegistrationNumber}");
 

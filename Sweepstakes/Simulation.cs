@@ -12,7 +12,7 @@ namespace Sweepstakes
         public bool isDone = false;
         public void CreateMarketingFirmWithManager()
         {
-            while (isDone)
+            while (!isDone)
             {
                 switch (UserInterface.GetUserInputFor("sweepstakes manager type:\n 1) Queue manager\n 2) Stack manager\n 3) Exit"))
                 {

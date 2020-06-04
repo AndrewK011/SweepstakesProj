@@ -11,7 +11,7 @@ namespace Sweepstakes
         private ISweepstakesManager _manager;
 
         //Dependency injection in MarketingFirm constructor allows the constructor to take in any manager
-        //that is compatible with the ISweepstakesManager interface
+        //that is compatible with the ISweepstakesManager interface, increasing flexibility and reusibility
         public MarketingFirm(ISweepstakesManager manager)
         {
             _manager = manager;
